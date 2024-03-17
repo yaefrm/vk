@@ -1,0 +1,47 @@
+import pytest
+
+# Константы для тестов строк
+STRING_HELLO = "hello"
+STRING_WORLD = "world"
+CONCAT_RESULT = "helloworld"
+SUBSTRING_NOT_FOUND = "world"
+
+# Константы для тестов вещественных чисел
+FLOAT_STRING = "10.5"
+FLOAT_NUMBER = 10.5
+ROUND_TEST_CASES = [
+    (10.555, 2, 10.55),
+    (2.123, 1, 2.1),
+    (0.9999, 3, 1.0)
+]
+
+
+# Тесты для строк
+class TestString:
+    def test_length(self):
+        assert len(STRING_HELLO) == 5
+
+    @pytest.mark.parametrize("param1, param2, expected", [
+        (STRING_HELLO, STRING_WORLD, CONCAT_RESULT),
+        ("123", "456", "123456"),
+        ("", "Test", "Test")
+    ])
+    def test_concatenation(self, param1, param2, expected):
+        assert param1 + param2 == expected
+
+    def test_find_substring_not_found(self):
+        assert STRING_HELLO.find(SUBSTRING_NOT_FOUND) == -1
+
+
+# Тесты для вещественных чисел
+class TestFloat:
+    def test_conversion(self):
+        assert float(FLOAT_STRING) == FLOAT_NUMBER
+
+    @pytest.mark.parametrize("number, digits, expected", ROUND_TEST_CASES)
+    def test_rounding(self, number, digits, expected):
+        assert round(number, digits) == expected
+
+    def test_multiplication_with_none(self):
+        with pytest.raises(TypeError):
+            result = 10.5 * None
